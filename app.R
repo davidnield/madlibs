@@ -14,8 +14,7 @@ ui <- fluidPage(
       textInput("verb2", "Enter a past tense verb:", ""),
       textInput("adjective", "Enter negative adjective:", ""),
       textInput("adjective2", "Enter positive adjective:", ""),
-      textInput("adverb", "Enter an adverb:", ""),
-      actionButton("submit", "Create Story")
+      textInput("adverb", "Enter an adverb:", "")
     ),
 
     mainPanel(
@@ -65,7 +64,7 @@ server <- function(input, output) {
   iv$add_rule("adverb", sv_required())
   iv$enable()
 
-  story <- eventReactive(input$submit, {
+  story <- reactive(input$submit, {
     req(iv$is_valid())
     cat("Processing submit\n")
     try(add_row_to_db(
