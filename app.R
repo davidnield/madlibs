@@ -15,6 +15,7 @@ ui <- fluidPage(
       textInput("adjective", "Enter negative adjective:", ""),
       textInput("adjective2", "Enter positive adjective:", ""),
       textInput("adverb", "Enter an adverb:", "")
+      # actionButton("submit", "Create Story")  # Removed
     ),
 
     mainPanel(
@@ -53,6 +54,7 @@ add_row_to_db <- function(noun, noun2, verb, verb2, adjective, adjective2, adver
   ))
   invisible()
 }
+
 server <- function(input, output) {
   iv <- InputValidator$new()
   iv$add_rule("noun", sv_required())
@@ -64,9 +66,9 @@ server <- function(input, output) {
   iv$add_rule("adverb", sv_required())
   iv$enable()
 
-  story <- reactive(input$submit, {
+  story <- reactive({
     req(iv$is_valid())
-    cat("Processing submit\n")
+    cat("Auto-generating story\n")
     try(add_row_to_db(
       noun = input$noun,
       noun2 = input$noun2,
